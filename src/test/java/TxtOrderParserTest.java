@@ -1,7 +1,7 @@
-import Entity.Discount;
-import Entity.Order;
-import Parser.OrderParser;
-import Parser.TxtOrderParser;
+import entity.Discount;
+import entity.Order;
+import parser.OrderParser;
+import parser.TxtOrderParser;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 

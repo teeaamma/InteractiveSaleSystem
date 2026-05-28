@@ -1,4 +1,6 @@
-package Entity;
+package entity;
+
+import exception.DiscountException;
 
 public class Discount {
 
@@ -11,8 +13,8 @@ public class Discount {
     }
 
     public Discount(int discountPercent){
-        if (discountPercent > 100)
-            throw new RuntimeException("Скидка не может быть больше 100%: " + discountPercent);
+        if (discountPercent < 0 || discountPercent > 100)
+            throw new DiscountException("Скидка не может быть меньше 0% или больше 100%: " + discountPercent);
         this.discountPercent = discountPercent;
     }
 

@@ -1,7 +1,7 @@
-import Parser.NoExtensionOrderParser;
-import Parser.OrderParser;
-import Parser.OrderParserFactory;
-import Parser.TxtOrderParser;
+import parser.NoExtensionOrderParser;
+import parser.OrderParser;
+import parser.OrderParserFactory;
+import parser.TxtOrderParser;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;

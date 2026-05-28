@@ -1,7 +1,7 @@
-package Parser;
+package parser;
 
-import Entity.Discount;
-import Entity.Order;
+import entity.Discount;
+import entity.Order;
 
 import java.io.IOException;
 import java.nio.file.Files;

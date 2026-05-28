@@ -1,7 +1,7 @@
-package Parser;
+package parser;
 
-import Entity.Discount;
-import Entity.Order;
+import entity.Discount;
+import entity.Order;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -13,10 +13,9 @@ import java.util.stream.Stream;
 public class NoExtensionOrderParser implements OrderParser {
     @Override
     public List<Order> parseOrders(String fileName) {
-        List<Order> orders;
-        Discount discount = new Discount();
+        Discount discount = new Discount(50);
         try(Stream<String> lines = Files.lines(Path.of(fileName))) {
-            orders = new ArrayList<>(
+            return new ArrayList<>(
                     lines.map(line -> parseOrder(line, discount, "#"))
                             .toList()
             );
@@ -24,7 +23,5 @@ public class NoExtensionOrderParser implements OrderParser {
         catch (IOException e) {
             throw new RuntimeException("Ошибка при чтении файла: " + fileName, e);
         }
-        return orders;
     }
-
 }

@@ -1,5 +1,5 @@
-import Entity.Discount;
-import Entity.Order;
+import entity.Discount;
+import entity.Order;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;

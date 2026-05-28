@@ -1,6 +1,6 @@
-import Entity.Order;
-import Parser.OrderParser;
-import Parser.OrderParserFactory;
+import entity.Order;
+import parser.OrderParser;
+import parser.OrderParserFactory;
 
 import java.util.Comparator;
 import java.util.List;
