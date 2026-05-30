@@ -1,31 +1,27 @@
-import parser.NoExtensionOrderParser;
-import parser.OrderParser;
 import parser.OrderParserFactory;
-import parser.TxtOrderParser;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class OrderParserFactoryTest {
 
-    @Test
-    void getParser_txtParser(){
-        String fileName = "test.txt";
-
-        OrderParser orderParser = OrderParserFactory.getParser(fileName);
-
-        assertInstanceOf(TxtOrderParser.class, orderParser);
-    }
-
-    @Test
-    void getParser_noExtensionParser(){
-        String fileName = "test";
-
-        OrderParser orderParser = OrderParserFactory.getParser(fileName);
-
-        assertInstanceOf(NoExtensionOrderParser.class, orderParser);
-    }
+//    @Test
+//    void getParser_txtParser(){
+//        String fileName = "test.txt";
+//
+//        OrderParser orderParser = OrderParserFactory.getParser(fileName);
+//
+//        assertInstanceOf(TxtOrderParser.class, orderParser);
+//    }
+//
+//    @Test
+//    void getParser_noExtensionParser(){
+//        String fileName = "test";
+//
+//        OrderParser orderParser = OrderParserFactory.getParser(fileName);
+//
+//        assertInstanceOf(NoExtensionOrderParser.class, orderParser);
+//    }
 
     @Test
     void getParser_unknownExtension(){

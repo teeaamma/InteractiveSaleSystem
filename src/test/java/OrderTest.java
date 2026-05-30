@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class OrderTest {
 
     @Test
-    void getClientAndPrice_regular(){
+    void getTotalPrice_regular(){
         Order order = new Order(
                 LocalDateTime.parse("2021-02-09T16:00:22"),
                 "testClient",
@@ -17,12 +17,12 @@ public class OrderTest {
                 new Discount()
         );
 
-        String result = order.getClientAndPrice();
-        assertEquals("testClient - 500", result);
+        int result = order.getTotalPrice();
+        assertEquals(500, result);
     }
 
     @Test
-    void getClientAndPrice_fullDiscount(){
+    void getTotalPrice_fullDiscount(){
         Order order = new Order(
                 LocalDateTime.parse("2021-02-09T16:00:22"),
                 "testClient",
@@ -30,12 +30,12 @@ public class OrderTest {
                 new Discount(100)
         );
 
-        String result = order.getClientAndPrice();
-        assertEquals("testClient - 0", result);
+        int result = order.getTotalPrice();
+        assertEquals(0, result);
     }
 
     @Test
-    void getClientAndPrice_withoutDiscount(){
+    void getTotalPrice_withoutDiscount(){
         Order order = new Order(
                 LocalDateTime.parse("2021-02-09T16:00:22"),
                 "testClient",
@@ -43,7 +43,7 @@ public class OrderTest {
                 new Discount(0)
         );
 
-        String result = order.getClientAndPrice();
-        assertEquals("testClient - 1000", result);
+        int result = order.getTotalPrice();
+        assertEquals(1000, result);
     }
 }

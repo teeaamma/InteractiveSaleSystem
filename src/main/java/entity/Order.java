@@ -38,11 +38,7 @@ public class Order {
         discount.decreaseDiscountPercent(percent);
     }
 
-    public String getClientAndPrice(){
-        return client + " - " + getTotalPrice(discount.getDiscountPercent());
-    }
-
-    private int getTotalPrice(int discountPercent){
-        return (int) (weight * PRICE_FOR_ONE_KILO * (1 - ((float) discountPercent / 100)));
+    public int getTotalPrice(){
+        return (int) (weight * PRICE_FOR_ONE_KILO * (1 - ((float) discount.getDiscountPercent() / 100)));
     }
 }

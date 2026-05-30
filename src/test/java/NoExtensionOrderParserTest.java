@@ -26,7 +26,7 @@ public class NoExtensionOrderParserTest {
         Discount discount = new Discount();
         OrderParser orderParser = new NoExtensionOrderParser();
 
-        Order order = orderParser.parseOrder(orderStr, discount, "#");
+        Order order = orderParser.parseOrder(orderStr, discount);
 
         assertEquals(LocalDateTime.parse("2023-04-03T18:23:17"), order.getTime());
         assertEquals("Test", order.getClient());
@@ -40,7 +40,7 @@ public class NoExtensionOrderParserTest {
         Discount discount = new Discount();
         OrderParser orderParser = new NoExtensionOrderParser();
 
-        assertThrows(RuntimeException.class, () -> orderParser.parseOrder(orderStr, discount, "#"));
+        assertThrows(RuntimeException.class, () -> orderParser.parseOrder(orderStr, discount));
     }
 
     @Test
@@ -49,7 +49,7 @@ public class NoExtensionOrderParserTest {
         Discount discount = new Discount();
         OrderParser orderParser = new TxtOrderParser();
 
-        assertThrows(RuntimeException.class, () -> orderParser.parseOrder(orderStr, discount, "\\|"));
+        assertThrows(RuntimeException.class, () -> orderParser.parseOrder(orderStr, discount));
     }
 
     @Test

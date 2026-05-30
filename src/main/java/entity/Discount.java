@@ -13,9 +13,13 @@ public class Discount {
     }
 
     public Discount(int discountPercent){
+        this.discountPercent = validateDiscount(discountPercent);
+    }
+
+    private int validateDiscount(int discountPercent){
         if (discountPercent < 0 || discountPercent > 100)
             throw new DiscountException("Скидка не может быть меньше 0% или больше 100%: " + discountPercent);
-        this.discountPercent = discountPercent;
+        return discountPercent;
     }
 
     public int getDiscountPercent() {

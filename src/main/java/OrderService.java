@@ -15,9 +15,9 @@ public class OrderService {
         return orders.stream()
                 .sorted(Comparator.comparing(Order::getTime))
                 .map(order -> {
-                    String orderClientAndPrice = order.getClientAndPrice();
+                    int price = order.getTotalPrice();
                     order.decreaseDiscount(5);
-                    return orderClientAndPrice;
+                    return order.getClient() + " - " + price;
                 })
                 .toList();
     }

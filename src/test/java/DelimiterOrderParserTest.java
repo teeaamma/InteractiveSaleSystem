@@ -1,7 +1,7 @@
 import entity.Discount;
 import entity.Order;
+import parser.DelimiterOrderParser;
 import parser.OrderParser;
-import parser.TxtOrderParser;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
@@ -14,16 +14,16 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class TxtOrderParserTest {
+public class DelimiterOrderParserTest {
 
     @TempDir
     Path tempDir;
 
     @Test
     void parseOrder_regular(){
-        String orderStr = "2023-04-03T18:23:17|Test|4500";
+        String orderStr = "2023-04-03T18:23:17&Test&4500";
         Discount discount = new Discount();
-        OrderParser orderParser = new TxtOrderParser();
+        OrderParser orderParser = new DelimiterOrderParser("&");
 
         Order order = orderParser.parseOrder(orderStr, discount);
 
@@ -37,16 +37,16 @@ public class TxtOrderParserTest {
     void parseOrder_wrongDelimiter(){
         String orderStr = "2023-04-03T18:23:17*Test*4500";
         Discount discount = new Discount();
-        OrderParser orderParser = new TxtOrderParser();
+        OrderParser orderParser = new DelimiterOrderParser("&");
 
         assertThrows(RuntimeException.class, () -> orderParser.parseOrder(orderStr, discount));
     }
 
     @Test
-    void parseOrder_wrongArgsCount(){
-        String orderStr = "2023-04-03T18:23:17|Test|4500|50";
+    void parseOrder_wrongArgsCountTxt(){
+        String orderStr = "2023-04-03T18:23:17&Test&4500&50";
         Discount discount = new Discount();
-        OrderParser orderParser = new TxtOrderParser();
+        OrderParser orderParser = new DelimiterOrderParser("&");
 
         assertThrows(RuntimeException.class, () -> orderParser.parseOrder(orderStr, discount));
     }
@@ -54,11 +54,11 @@ public class TxtOrderParserTest {
     @Test
     void parseOrders_regular() throws IOException {
         Path tempFile = tempDir.resolve("test.txt");
-        OrderParser orderParser = new TxtOrderParser();
+        OrderParser orderParser = new DelimiterOrderParser("&");
 
         Files.write(tempFile, List.of(
-                "2023-04-03T18:23:17|TestFirst|1000",
-                "2023-04-03T18:22:17|TestSecond|2000"
+                "2023-04-03T18:23:17&TestFirst&1000",
+                "2023-04-03T18:22:17&TestSecond&2000"
         ));
 
         List<Order> orders = orderParser.parseOrders(tempFile.toString());
@@ -76,7 +76,7 @@ public class TxtOrderParserTest {
 
     @Test
     void parseOrders_FileDoesNotExist(){
-        OrderParser orderParser = new TxtOrderParser();
+        OrderParser orderParser = new DelimiterOrderParser("&");
 
         assertThrows(RuntimeException.class, () -> orderParser.parseOrders("TestFile.txt"));
     }

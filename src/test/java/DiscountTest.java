@@ -31,4 +31,9 @@ public class DiscountTest {
     void discountCanNotBeMoreThanHundred(){
         assertThrows(RuntimeException.class, () -> new Discount(101));
     }
+
+    @Test
+    void discountCanNotBeLessThanZero(){
+        assertThrows(RuntimeException.class, () -> new Discount(-1));
+    }
 }
