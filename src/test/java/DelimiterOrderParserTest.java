@@ -1,0 +1,87 @@
+import entity.Discount;
+import entity.Order;
+import exception.OrderParsingException;
+import parser.DelimiterOrderParser;
+import parser.OrderParser;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
+import service.DiscountService;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.time.LocalDateTime;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+public class DelimiterOrderParserTest {
+
+    @TempDir
+    Path tempDir;
+
+    @Test
+    void parseOrder_regular(){
+        String orderStr = "2023-04-03T18:23:17&Test&4500";
+        Discount discount = new DiscountService().createDiscount(50);
+        OrderParser orderParser = new DelimiterOrderParser("&");
+
+        Order order = orderParser.parseOrder(orderStr, discount);
+
+        assertEquals(LocalDateTime.parse("2023-04-03T18:23:17"), order.getTime());
+        assertEquals("Test", order.getClient());
+        assertEquals(4500, order.getWeight());
+        assertEquals(discount, order.getDiscount());
+    }
+
+    @Test
+    void parseOrder_wrongDelimiter(){
+        String orderStr = "2023-04-03T18:23:17*Test*4500";
+        Discount discount = new DiscountService().createDiscount(50);
+        OrderParser orderParser = new DelimiterOrderParser("&");
+
+        assertThrows(OrderParsingException.class, () -> orderParser.parseOrder(orderStr, discount));
+    }
+
+    @Test
+    void parseOrder_wrongArgsCountTxt(){
+        String orderStr = "2023-04-03T18:23:17&Test&4500&50";
+        Discount discount = new DiscountService().createDiscount(50);
+        OrderParser orderParser = new DelimiterOrderParser("&");
+
+        assertThrows(OrderParsingException.class, () -> orderParser.parseOrder(orderStr, discount));
+    }
+
+    @Test
+    void parseOrders_regular() throws IOException {
+        Path tempFile = tempDir.resolve("test.txt");
+        OrderParser orderParser = new DelimiterOrderParser("&");
+        Discount discount = new DiscountService().createDiscount(50);
+
+        Files.write(tempFile, List.of(
+                "2023-04-03T18:23:17&TestFirst&1000",
+                "2023-04-03T18:22:17&TestSecond&2000"
+        ));
+
+        List<Order> orders = orderParser.parseOrders(tempFile.toString(), discount);
+
+        assertEquals(2, orders.size());
+
+        assertEquals(LocalDateTime.parse("2023-04-03T18:23:17"), orders.get(0).getTime());
+        assertEquals("TestFirst", orders.get(0).getClient());
+        assertEquals(1000, orders.get(0).getWeight());
+
+        assertEquals(LocalDateTime.parse("2023-04-03T18:22:17"), orders.get(1).getTime());
+        assertEquals("TestSecond", orders.get(1).getClient());
+        assertEquals(2000, orders.get(1).getWeight());
+    }
+
+    @Test
+    void parseOrders_FileDoesNotExist(){
+        OrderParser orderParser = new DelimiterOrderParser("&");
+        Discount discount = new DiscountService().createDiscount(50);
+
+        assertThrows(OrderParsingException.class, () -> orderParser.parseOrders("TestFile.txt", discount));
+    }
+}
