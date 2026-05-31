@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public class Order {
 
-    private static final int PRICE_FOR_ONE_KILO = 10;
+    public static final int PRICE_FOR_ONE_KILO = 10;
 
     private final LocalDateTime time;
     private final String client;
@@ -32,13 +32,5 @@ public class Order {
 
     public Discount getDiscount() {
         return discount;
-    }
-
-    public void decreaseDiscount(int percent) {
-        discount.decreaseDiscountPercent(percent);
-    }
-
-    public int getTotalPrice(){
-        return (int) (weight * PRICE_FOR_ONE_KILO * (1 - ((float) discount.getDiscountPercent() / 100)));
     }
 }

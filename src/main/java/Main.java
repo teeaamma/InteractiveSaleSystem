@@ -1,3 +1,6 @@
+import service.DiscountService;
+import service.OrderService;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -10,8 +13,9 @@ public class Main {
         String inputFileName2 ="discount_day_without_ext";
         String outputFileName = "output.txt";
 
-        OrderService orderService = new OrderService();
-        List<String> result = orderService.calculateFinalPrices(inputFileName1);
+        DiscountService discountService = new DiscountService();
+        OrderService orderService = new OrderService(discountService);
+        List<String> result = orderService.calculateFinalPrices(inputFileName1, 50);
 
         try {
             Files.write(Path.of(outputFileName), result);
